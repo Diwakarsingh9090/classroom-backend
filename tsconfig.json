@@ -31,5 +31,6 @@
     /* Environment types */
     "types": ["node"]
   },
-  "include": ["src"]
+  "include": ["src"],
+  
 }
