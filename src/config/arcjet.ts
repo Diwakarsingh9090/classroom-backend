@@ -19,14 +19,14 @@ const aj = arcjet({
         // Uncomment to allow these other common bot categories
         // See the full list at https://arcjet.com/bot-list
         //"CATEGORY:MONITOR", // Uptime monitoring services
-        //"CATEGORY:PREVIEW", // Link previews e.g. Slack, Discord
+        "CATEGORY:PREVIEW", // Link previews e.g. Slack, Discord
       ],
     }),
     // Create a token bucket rate limit. Other algorithms are supported.
     slidingWindow({
-      mode: "LIVE", // Blocks requests. Use "DRY_RUN" to log only
-      interval: '2s', // 1 minute window
-      max: 5, // Max 100 requests per window per IP
+      mode: "LIVE", 
+      interval: '2s',
+      max: 5,
     }),
   ],
 });

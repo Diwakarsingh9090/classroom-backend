@@ -77,7 +77,16 @@ const securityMiddleware = async (
       });
     }
 
+    // Catch-all for any other denial reasons
+    if (decision.isDenied()) {
+      return res.status(403).json({
+        error: "Forbidden",
+        message: "Request blocked by security policy",
+      });
+    }
+    
     next();
+
   } catch (error) {
     console.error("Arcjet middleware error:", error);
     res.status(500).json({
