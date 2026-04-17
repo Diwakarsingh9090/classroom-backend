@@ -9,7 +9,8 @@ import { toNodeHandler } from 'better-auth/node';
 import { auth } from './lib/auth.js';
 
 const app = express();
-const PORT = 8000;
+const PORT = Number(process.env.PORT ?? 8000);
+const HOST = process.env.HOST ?? '0.0.0.0';
 
 //Cors configuration
 
@@ -37,6 +38,6 @@ app.get('/', (req, res) => {
 });
 
 // Start server
-app.listen(PORT, () => {
-    console.log(`Server is running at http://localhost:${PORT}`);
+app.listen(PORT, HOST, () => {
+    console.log(`Server is running on ${HOST}:${PORT}`);
 });
