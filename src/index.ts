@@ -20,8 +20,22 @@ if (!process.env.FRONTEND_URL) {
   throw new Error('FRONTEND_URL is required');
 }
 
+const LOCALHOST_ORIGIN_PATTERN = /^https?:\/\/localhost(:\d+)?$/;
+const isDevelopment = process.env.NODE_ENV !== 'production';
+
 app.use(cors({
-    origin: process.env.FRONTEND_URL,
+    origin: (origin, callback) => {
+        // Allow requests with no origin (e.g. curl, Postman, server-to-server)
+        if (!origin) return callback(null, true);
+
+        // Always allow the configured frontend URL
+        if (origin === process.env.FRONTEND_URL) return callback(null, true);
+
+        // Allow any localhost origin in development
+        if (isDevelopment && LOCALHOST_ORIGIN_PATTERN.test(origin)) return callback(null, true);
+
+        callback(new Error(`CORS: origin '${origin}' not allowed`));
+    },
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
 }))
