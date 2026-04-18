@@ -9,6 +9,8 @@ import { toNodeHandler } from 'better-auth/node';
 import { auth } from './lib/auth.js';
 
 const app = express();
+// 🔥 REQUIRED for Railway
+app.set("trust proxy", 1);
 const PORT = Number(process.env.PORT ?? 8000);
 const HOST = process.env.HOST ?? '0.0.0.0';
 
@@ -24,11 +26,11 @@ app.use(cors({
     credentials: true
 }))
 
-app.all('/api/auth/{*splat}', toNodeHandler(auth));
 
 // Middleware
 app.use(express.json());
 app.use(securityMiddleware)
+app.all('/api/auth/{*splat}', toNodeHandler(auth));
 
 app.use('/api/subjects', subjectsRouter);
 
